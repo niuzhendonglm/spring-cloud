@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: microservice-config-server-eureka
+  application:
+    name: microservice-config-client-eureka
+  security:
+    user:
+      name: admin
+      password: admin
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:8761/eureka
+    # eureka 健康检查
+    healthcheck:
+      enabled: true
+  instance:
+    hostname: localhost
+    # 访问的路径变为IP地址
+    prefer-ip-address: true
+    # 在信息列表时显示主机名称
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    # 设置心跳的时间间隔（默认是30秒）
+    lease-renewal-interval-in-seconds: 30
+    # 如果现在超过了5秒的间隔（默认是90秒）
+    lease-expiration-duration-in-seconds: 90

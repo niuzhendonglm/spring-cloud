@@ -1,0 +1,30 @@
+server:
+  port: 8761
+eureka:
+  datacenter: cloud
+  environment: product
+  instance:
+    hostname: localhost
+  client:
+    #是否向注册中心注册自己
+    register-with-eureka: false
+    #是否开启检索服务
+    fetch-registry: false
+    #注册服务地址
+    service-url:
+      # defaultZone: http://localhost:${server.port}/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+  dashboard:
+#    enabled: false
+    path: /x
+  # 解决 Eureka Server 不踢出已关停的节点
+  server:
+    # 关闭自我保护
+    enable-self-preservation: false
+    # 清理间隔（单位毫秒，默认是60*1000）
+    eviction-interval-timer-in-ms: 60000
+spring:
+  security:
+    user:
+      name: admin
+      password: admin

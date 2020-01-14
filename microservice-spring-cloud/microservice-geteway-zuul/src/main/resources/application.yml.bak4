@@ -1,0 +1,29 @@
+server:
+  port: 8040
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:8761/eureka
+  instance:
+    hostname: localhost
+    # 在信息列表时显示主机名称
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true
+spring:
+  application:
+    name: microservice-geteway-zuul
+  security:
+    user:
+      name: admin
+      password: admin
+zuul:
+  routes:
+    abc:
+      path: /user-path/**
+      serviceId: microservice-provider-user
+ribbon:
+  eureka:
+    enabled: false
+microservice-provider-user:
+  ribbon:
+    listOfServers: http://192.168.200.71:7900,http://192.168.200.71:7901

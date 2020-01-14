@@ -1,0 +1,23 @@
+server:
+  port: 8040
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:8761/eureka
+  instance:
+    hostname: localhost
+    # 在信息列表时显示主机名称
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true
+spring:
+  application:
+    name: microservice-geteway-zuul
+  security:
+    user:
+      name: admin
+      password: admin
+zuul:
+#  ignored-services: '*'
+  ignored-services: microservice-consumer-movie-feign-with-hystrix
+  routes:
+    microservice-provider-user: /myUser/**

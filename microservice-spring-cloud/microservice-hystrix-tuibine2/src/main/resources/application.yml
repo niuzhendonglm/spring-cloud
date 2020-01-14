@@ -1,0 +1,43 @@
+server:
+  port: 8031
+spring:
+  application:
+    name: microservice-hystrix-tuibine
+  security:
+    user:
+      name: admin
+      password: admin
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:8761/eureka
+  instance:
+    hostname: localhost
+    # 在信息列表时显示主机名称
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+management:
+  endpoints:
+    web:
+      # 设置监控访问的应用根路径，默认是 /actuator
+      base-path: /monitor
+      exposure:
+        # 暴露监控访问接口，默认是 /health 和 /info
+        include: '*'
+        # 显式屏蔽监控访问接口
+  #        exclude: env,metrics
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      #开放关闭应用程序端点，不建议开启
+      enabled: false
+turbine:
+  aggregator:
+    cluster-config: MICROSERVICE-CONSUMER-MOVIE-RIBBON-WITH-HYSTRIX2
+  app-config: microservice-consumer-movie-ribbon-with-hystrix2
+#  cluster-name-expression: "'default'"
+logging:
+  level:
+    root: info
+    com.netflix.turbine.monitor: debug
+turbine.instanceUrlSuffix.MICROSERVICE-CONSUMER-MOVIE-RIBBON-WITH-HYSTRIX2: /monitor/hystrix.stream

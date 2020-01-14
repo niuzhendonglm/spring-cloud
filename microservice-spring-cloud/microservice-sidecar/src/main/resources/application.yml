@@ -1,0 +1,44 @@
+server:
+  port: 8070
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:8761/eureka
+  instance:
+    hostname: localhost
+    # 在信息列表时显示主机名称
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true
+spring:
+  application:
+    name: microservice-geteway-zuul-fallback
+  security:
+    user:
+      name: admin
+      password: admin
+management:
+  endpoints:
+    web:
+      # 设置监控访问的应用根路径，默认是 /actuator
+      base-path: /monitor
+      exposure:
+        # 暴露监控访问接口，默认是 /health 和 /info
+        include: '*'
+        # 显式屏蔽监控访问接口
+  #        exclude: env,metrics
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      #开放关闭应用程序端点，不建议开启
+      enabled: false
+
+# /routes /routes/detail 需要依赖 spring-cloud-stater-actuator
+zuul:
+  routes:
+    microservice-provider-user:
+      path: /myUser/**
+      serviceId: microservice-provider-user
+sidecar:
+  port: 8060
+  health-uri: http://localhost:8060/health.json
