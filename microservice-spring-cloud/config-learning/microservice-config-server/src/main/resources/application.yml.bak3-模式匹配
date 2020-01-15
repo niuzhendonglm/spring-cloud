@@ -9,6 +9,10 @@ spring:
       server:
         git:
           uri: https://github.com/niuzhendonglm/spring-cloud-config-test
-          cloneOnStart: true
+          repos:
+            simple: ttps://github.com/niuzhendonglm/simple
+            special:
+              pattern: special*/test*,*special*/test*
+              uri: ttps://github.com/niuzhendonglm/special
           username: zgahhb_nzd_java@163.com
           password: niuzhendong521github

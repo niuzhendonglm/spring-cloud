@@ -9,6 +9,5 @@ spring:
       server:
         git:
           uri: https://github.com/niuzhendonglm/spring-cloud-config-test
-          cloneOnStart: true
           username: zgahhb_nzd_java@163.com
           password: niuzhendong521github
